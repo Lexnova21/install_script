@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# ==========================
-# Hyprland Installationsskript für Arch Linux und CachyOS
-# ==========================
-
-# --- Variablen ---
 username="${SUDO_USER:-$(logname)}"
 home_dir="/home/$username"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -113,6 +108,29 @@ install_yay() {
   fi
 }
 
+# --- AUR-Pakete installieren ---
+install_aur_packages() {
+  echo ""
+  echo "-------------------------------------------------"
+  echo "Optional: AUR-Paketinstallation"
+  echo "-------------------------------------------------"
+  
+  declare -a packages=(
+    "visual-studio-code-bin"
+    "google-chrome"
+    "sunshine"
+    "tradingview"
+  )
+  
+  for pkg in "${packages[@]}"; do
+    read -p "$pkg installieren? (j/n): " choice
+    if [[ "$choice" =~ ^[jJ] ]]; then
+      log INFO "Installiere $pkg..."
+      sudo -u "$username" yay -S --noconfirm "$pkg" && log OK "$pkg installiert" || log ERROR "Fehler bei $pkg"
+    fi
+  done
+}
+
 # --- Konfigurationsdateien kopieren ---
 copy_configs() {
   echo ""
@@ -120,6 +138,7 @@ copy_configs() {
   echo "Kopieren von Konfigurationsdateien"
   echo "-------------------------------------------------"
 
+  # Hyprland-Konfiguration
   if [ -d "$SCRIPT_DIR/configs/hypr" ]; then
     log INFO "Kopiere configs/hypr nach $home_dir/.config/hypr"
     mkdir -p "$home_dir/.config"
@@ -130,6 +149,27 @@ copy_configs() {
     log WARN "Ordner 'configs/hypr' nicht gefunden."
   fi
 
+  # Sunshine-Konfiguration
+  if [ -d "$SCRIPT_DIR/configs/sunshine" ]; then
+    log INFO "Kopiere configs/sunshine nach $home_dir/.config/sunshine"
+    mkdir -p "$home_dir/.config/sunshine"
+    cp -r "$SCRIPT_DIR/configs/sunshine/"* "$home_dir/.config/sunshine/"
+    chown -R "$username":"$username" "$home_dir/.config/sunshine"
+    log OK "Sunshine-Konfiguration kopiert."
+    
+    # Sunshine-Dienst neustarten falls installiert
+    if command -v sunshine &> /dev/null; then
+      if systemctl is-active --quiet sunshine; then
+        systemctl restart sunshine && log OK "Sunshine-Dienst neu gestartet" || log WARN "Konnte Sunshine-Dienst nicht neustarten"
+      else
+        systemctl enable --now sunshine && log OK "Sunshine-Dienst aktiviert" || log WARN "Konnte Sunshine-Dienst nicht aktivieren"
+      fi
+    fi
+  else
+    log WARN "Ordner 'configs/sunshine' nicht gefunden."
+  fi
+
+  # CachyOS-spezifische Konfiguration
   if [[ "$os" == "cachyos" ]]; then
     if [ -d "$SCRIPT_DIR/configs/fish" ]; then
       log INFO "Kopiere configs/fish nach $home_dir/.config/fish"
@@ -184,6 +224,7 @@ else
 fi
 
 install_yay
+install_aur_packages
 copy_configs
 setup_autologin
 
