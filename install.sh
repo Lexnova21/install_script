@@ -1,45 +1,58 @@
 #!/bin/bash
 
+# --- Konfiguration ---
 username="${SUDO_USER:-$(logname)}"
 home_dir="/home/$username"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOGFILE="$SCRIPT_DIR/hyprland_install_$(date +%Y%m%d_%H%M%S).log"
 YAY_BUILD_DIR="$home_dir/yay"
-common_packages="hyprland udisks2 wlroots networkmanager xdg-desktop-portal-hyprland hyprland-qt-support hyprpolkitagent thunar gvfs wofi vim kitty nwg-look gnome-themes-extra materia-gtk-theme power-profiles-daemon"
-arch_only_packages="wayland"
+declare -a ERROR_LOG
 
-# Module laden
+# --- Module laden ---
 source "$SCRIPT_DIR/modules/logging.sh"
 source "$SCRIPT_DIR/modules/system_check.sh"
+source "$SCRIPT_DIR/modules/questions.sh"
 source "$SCRIPT_DIR/modules/drivers.sh"
-source "$SCRIPT_DIR/modules/network.sh"  # NEU
+source "$SCRIPT_DIR/modules/network.sh"
 source "$SCRIPT_DIR/modules/packages.sh"
 source "$SCRIPT_DIR/modules/aur.sh"
 source "$SCRIPT_DIR/modules/configs.sh"
 source "$SCRIPT_DIR/modules/autologin.sh"
 
+# --- Initialisierung ---
 setup_logging
 check_root
 detect_os
 
-choose_gpu_driver
-configure_network  # NEU
+# --- Alle Fragen am Anfang ---
+ask_questions
 
-if [[ "$os" == "arch" ]]; then
-  install_packages "$common_packages $arch_only_packages"
-else
-  install_packages "$common_packages"
-fi
+# --- Installation durchführen ---
+set +e # Fehler nicht abbrechen
 
-install_yay
+install_gpu_drivers
+configure_network
+install_base_packages
 install_aur_packages
-copy_configs
+copy_configurations
 setup_autologin
 
+# --- Abschlussbericht ---
 echo ""
 echo "-------------------------------------------------"
-echo "System wird jetzt neu gestartet, um Autologin zu aktivieren!"
-echo "Das Logfile findest du unter: $LOGFILE"
+echo " Installationszusammenfassung"
 echo "-------------------------------------------------"
-sleep 5
-reboot
+
+if [ ${#ERROR_LOG[@]} -eq 0 ]; then
+  echo "✅ Alle Komponenten erfolgreich installiert!"
+  echo ""
+  read -p "Neustart jetzt durchführen? (j/n): " reboot_choice
+  if [[ "$reboot_choice" =~ ^[jJ] ]]; then
+    reboot
+  fi
+else
+  echo "❌ Folgende Fehler traten auf:"
+  printf " - %s\n" "${ERROR_LOG[@]}"
+  echo ""
+  echo "Logfile: $LOGFILE"
+fi
