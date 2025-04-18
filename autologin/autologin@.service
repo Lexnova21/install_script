@@ -1,9 +1,3 @@
-
-
-
-#
-#  systemd is free software; you can redistribute it and/or modify it
-
 [Unit]
 Description=Getty on %I
 After=systemd-user-sessions.service plymouth-quit-wait.service
@@ -12,55 +6,12 @@ IgnoreOnIsolate=yes
 ConditionPathExists=/dev/tty1
 
 
-
-
-
-
-
-
-# If additional gettys are spawned during boot then we should make
-# sure that this is synchronized before getty.target, even though
-# getty.target didn't actually pull it in.
-
-
-
-# IgnoreOnIsolate causes issues with sulogin, if someone isolates
-# rescue.target or starts rescue.service from multi-user.target or
-# graphical.target.
-
-
-
-# On systems without virtual consoles, don't start any getty. Note
-# that serial gettys are covered by serial-getty@.service, not this
-# unit.
-
-
 [Service]
-# The '-o' option value tells agetty to replace 'login' arguments with '--' for
-# safety, and then the entered username.
 ExecStart=-/sbin/agetty --autologin test --noclear %I
+
 [Install]
 Alias=getty.target.wants/getty@tty1.service
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Unset locale for the console getty since the console has problems
-# displaying some internationalized messages.
 
 
 
