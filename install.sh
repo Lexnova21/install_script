@@ -143,34 +143,28 @@ copy_configs() {
   fi
 }
 
-# --- Autologin einrichten ---
+# --- Autologin per systemd Drop-In einrichten ---
 setup_autologin() {
-  local autologin_file="/etc/systemd/system/autologin@.service"
+  local dropin_dir="/etc/systemd/system/getty@tty1.service.d"
+  local dropin_file="$dropin_dir/autologin.conf"
   local autologin_user="$username"
 
-  log INFO "Richte Autologin für Benutzer '$autologin_user' auf tty1 ein..."
+  log INFO "Richte Autologin für Benutzer '$autologin_user' auf tty1 per systemd-Drop-In ein..."
 
-  cat > "$autologin_file" <<EOF
-[Unit]
-Description=Getty on %I
-After=systemd-user-sessions.service plymouth-quit-wait.service
-Before=getty.target
-IgnoreOnIsolate=yes
-ConditionPathExists=/dev/tty1
-
+  mkdir -p "$dropin_dir"
+  cat > "$dropin_file" <<EOF
 [Service]
-ExecStart=-/sbin/agetty --autologin $autologin_user --noclear %I
-[Install]
-Alias=getty.target.wants/getty@tty1.service
+ExecStart=
+ExecStart=-/sbin/agetty --autologin $autologin_user --noclear %I \$TERM
 EOF
 
-  chmod 644 "$autologin_file"
-  log OK "Autologin-Service-Datei erstellt."
+  chmod 644 "$dropin_file"
+  log OK "Autologin-Drop-In erstellt: $dropin_file"
 
   systemctl daemon-reload
-  systemctl enable autologin@tty1.service
+  systemctl enable getty@tty1.service
 
-  log OK "Autologin-Service aktiviert."
+  log OK "Autologin für tty1 aktiviert."
 }
 
 # --- Hauptprogramm ---
