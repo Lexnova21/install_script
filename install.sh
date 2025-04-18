@@ -122,3 +122,29 @@ echo "-------------------------------------------------"
 
 if [ -d "$SCRIPT_DIR/configs/hypr" ]; then
   log INFO "Kopiere configs/hypr nach $home_dir/.config/hypr"
+  mkdir -p "$home_dir/.config"
+  cp -r "$SCRIPT_DIR/configs/hypr" "$home_dir/.config/"
+  chown -R "$username":"$username" "$home_dir/.config/hypr"
+  log OK "Hyprland-Konfiguration kopiert."
+else
+  log WARN "Ordner 'configs/hypr' nicht gefunden."
+fi
+
+if [[ "$os" == "cachyos" ]]; then
+  if [ -d "$SCRIPT_DIR/configs/fish" ]; then
+    log INFO "Kopiere configs/fish nach $home_dir/.config/fish"
+    mkdir -p "$home_dir/.config"
+    cp -r "$SCRIPT_DIR/configs/fish" "$home_dir/.config/"
+    chown -R "$username":"$username" "$home_dir/.config/fish"
+    log OK "Fish-Konfiguration kopiert."
+  else
+    log WARN "Ordner 'configs/fish' nicht gefunden."
+  fi
+fi
+
+echo ""
+echo "-------------------------------------------------"
+echo "Fertig!"
+echo "Bitte starte deinen Computer neu, um alle Änderungen zu übernehmen."
+echo "Das Logfile findest du unter: $LOGFILE"
+echo "-------------------------------------------------"
