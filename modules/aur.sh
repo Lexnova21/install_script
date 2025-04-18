@@ -1,18 +1,13 @@
 install_aur_packages() {
-  declare -a packages=(
-    "visual-studio-code-bin"
-    "google-chrome"
-    "sunshine"
-    "tradingview"
-  )
+  [[ ${#SELECTED_AUR[@]} -eq 0 ]] && return
   
-  for pkg in "${packages[@]}"; do
-    read -p "$pkg installieren? (j/n): " choice
-    if [[ "$choice" =~ ^[jJ] ]]; then
-      log INFO "Installiere $pkg..."
-      sudo -u "$username" yay -S --noconfirm "$pkg" && \
-        log OK "$pkg installiert" || \
-        log ERROR "Fehler bei $pkg"
+  log "INFO" "Installiere AUR-Pakete: ${SELECTED_AUR[*]}"
+  
+  for pkg in "${SELECTED_AUR[@]}"; do
+    if ! sudo -u "$username" yay -S --needed --noconfirm "$pkg"; then
+      log_error "Fehler bei der Installation von $pkg"
+      continue
     fi
+    log "OK" "$pkg erfolgreich installiert"
   done
 }
