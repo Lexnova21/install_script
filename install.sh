@@ -29,11 +29,11 @@ ask_questions
 
 # --- Installation durchführen ---
 set +e # Fehler nicht abbrechen
-
-install_gpu_drivers
-configure_network
 install_base_packages
+install_gpu_drivers
+install_yay
 install_aur_packages
+configure_network
 copy_configurations
 setup_autologin
 
