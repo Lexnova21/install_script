@@ -38,7 +38,7 @@ ConditionPathExists=/dev/tty1
 [Service]
 # The '-o' option value tells agetty to replace 'login' arguments with '--' for
 # safety, and then the entered username.
-ExecStart=-/sbin/agetty --autologin venture --noclear %I
+ExecStart=-/sbin/agetty --autologin test --noclear %I
 [Install]
 Alias=getty.target.wants/getty@tty1.service
 
