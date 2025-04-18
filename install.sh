@@ -172,7 +172,7 @@ EOF
 check_root
 detect_os
 
-common_packages="hyprland udisks2 wlroots xdg-desktop-portal-hyprland hyprland-qt-support hyprpolkitagent thunar gvfs wofi vim kitty nwg-look gnome-themes-extra materia-gtk-theme power-profiles-daemon"
+common_packages="hyprland udisks2 wlroots xdg-desktop-portal-hyprland hyprland-qt-support hyprpolkitagent nemo gvfs wofi vim kitty nwg-look gnome-themes-extra materia-gtk-theme power-profiles-daemon"
 arch_only_packages="wayland"
 
 choose_gpu_driver
