@@ -1,7 +1,7 @@
 #!/bin/bash
 
 install_base_packages() {
-  local common_packages="hyprland udisks2 wlroots networkmanager xdg-desktop-portal-hyprland hyprland-qt-support hyprpolkitagent thunar gvfs wofi vim kitty nwg-look gnome-themes-extra materia-gtk-theme power-profiles-daemon "
+  local common_packages="hyprland udisks2 waybar wlroots networkmanager xdg-desktop-portal-hyprland hyprland-qt-support hyprpolkitagent thunar gvfs wofi vim kitty nwg-look gnome-themes-extra materia-gtk-theme power-profiles-daemon "
   local arch_only_packages="wayland"
 
   if [[ "$os" == "arch" ]]; then
@@ -22,9 +22,10 @@ install_packages() {
   
   log "OK" "Pakete erfolgreich installiert: $packages"
 }
+
 install_aur_packages() {
   # Waybar IMMER installieren (Hardcoded)
-  local required_aur_packages=("waybar")
+  local required_aur_packages=("wttrbar")
   local combined_packages=("${required_aur_packages[@]}" "${SELECTED_AUR[@]}")
 
   [[ ${#combined_packages[@]} -eq 0 ]] && return
@@ -43,6 +44,8 @@ install_aur_packages() {
     log "OK" "$pkg erfolgreich installiert"
   done
 }
+
+
 install_yay() {
   if command -v yay &> /dev/null; then
     log "OK" "Yay ist bereits installiert"
