@@ -1,0 +1,55 @@
+* {
+	border: 1px;
+	border-radius: 0;
+    font-family: "JetbrainsMono Nerd Font" ;
+	font-size: 20px;
+	min-height: 10px;
+	color: @theme_text_color;
+	background: @theme_base_color;
+
+}
+
+#clock {
+	margin-top: 3px;
+	margin-left: 50px;
+	padding-left: 10px;
+	/* padding-right: 10px; */
+	margin-bottom: 3px;
+	border-radius: 10px;
+	transition: none;
+	/* background: #ABE9B3; */
+	/* background: #1A1826; */
+}
+
+
+#custom-weather {
+	margin-top: 3px;
+	/* margin-left: 20px; */
+	/* padding-left: 10px; */
+	padding-right: 10px;
+	margin-bottom: 3px;
+	border-radius: 10px;
+	transition: none;
+  }
+  
+  /* #custom-weather:hover {
+	background-color: rgba(50, 65, 80, 0.9);
+  } */
+  
+  #network {
+	margin-top: 3px;
+	margin-left: 8px;
+	margin-right: 50px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-bottom: 3px;
+	border-radius: 10px;
+	transition: none;
+	
+	/* color: #161320; */
+	/* background: #bd93f9; */
+}
+
+
+
+

@@ -1,0 +1,56 @@
+{
+    "layer": "top", "position": "bottom",
+    "modules-left": ["clock", "custom/weather"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["network"],
+    "reload_style_on_change":true,
+  
+
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "warp-on-scroll": false,
+        "format": "{icon}",
+      "format-icons": {
+          "1": "",
+          "2": "",
+          "3": "",
+          "4": "󰨞",
+          "5": "󰄪",
+          "active": "",
+          "default": "" 
+      },
+         "persistent-workspaces": {
+           "*": [1, 2, 3, 4, 5 ]
+         }
+      },
+  
+"custom/weather": {
+    "exec": "wttrbar --location Linz,AT --lang de --nerd",
+    "format": "- {}°C",
+    "tooltip": true,
+    "interval": 3600,
+    "return-type": "json"
+},
+
+
+
+
+    "clock": {
+      "format": "{:%d:%m:%Y - %H:%M }",
+      "interval": 1,
+      "tooltip-format": "\n<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+      "calendar-weeks-pos": "right",
+      "today-format": "<span color='#7645AD'><b><u>{}</u></b></span>",
+      "format-calendar": "<span color='#aeaeae'><b>{}</b></span>",
+      "format-calendar-weeks": "<span color='#aeaeae'><b>W{:%V}</b></span>",
+      "format-calendar-weekdays": "<span color='#aeaeae'><b>{}</b></span>"
+      },
+
+    "network": {
+        "format-ethernet": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
+        "format-disconnected": "󰖪 ",
+        "interval": 1
+    	}
+}
+  
