@@ -50,6 +50,22 @@ copy_configs() {
         log "WARN" "Fish-Konfigurationsordner nicht gefunden"
     fi
 
+    # Waybar-Konfig (NEU hinzugefügt)
+    if [ -d "$SCRIPT_DIR/configs/waybar" ]; then
+        log "INFO" "Kopiere Waybar-Konfiguration..."
+        if mkdir -p "$home_dir/.config/waybar" && \
+           cp -r "$SCRIPT_DIR/configs/waybar" "$home_dir/.config/" && \
+           chown -R "$username":"$username" "$home_dir/.config/waybar"; then
+            log "OK" "Waybar-Konfiguration erfolgreich kopiert"
+            ((configs_ok++))
+        else
+            log_error "Fehler beim Kopieren der Waybar-Konfiguration"
+            ((configs_failed++))
+        fi
+    else
+        log "WARN" "Waybar-Konfigurationsordner nicht gefunden"
+    fi
+
     # Zusammenfassung
     echo ""
     log "INFO" "Konfigurations-Zusammenfassung:"
