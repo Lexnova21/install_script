@@ -9,6 +9,7 @@
 .fuse_hidden*
 hyprland_install*.log
 guide.txt
+aur.sh
 # KDE directory preferences
 .directory
 
