@@ -15,7 +15,7 @@ source "$SCRIPT_DIR/modules/questions.sh"
 source "$SCRIPT_DIR/modules/drivers.sh"
 source "$SCRIPT_DIR/modules/network.sh"
 source "$SCRIPT_DIR/modules/packages.sh"
-# source "$SCRIPT_DIR/modules/aur.sh"
+source "$SCRIPT_DIR/modules/fonts.sh"
 source "$SCRIPT_DIR/modules/configs.sh"
 source "$SCRIPT_DIR/modules/autologin.sh"
 
@@ -34,6 +34,7 @@ install_gpu_drivers
 install_yay
 install_aur_packages
 configure_network
+install_nerd_fonts
 copy_configs
 setup_autologin
 
