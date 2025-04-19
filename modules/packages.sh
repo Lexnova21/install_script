@@ -1,7 +1,7 @@
 #!/bin/bash
 
 install_base_packages() {
-  local common_packages="hyprland udisks2 wlroots networkmanager wttrbar xdg-desktop-portal-hyprland hyprland-qt-support hyprpolkitagent thunar gvfs wofi vim kitty nwg-look gnome-themes-extra materia-gtk-theme power-profiles-daemon "
+  local common_packages="hyprland udisks2 wlroots networkmanager xdg-desktop-portal-hyprland hyprland-qt-support hyprpolkitagent thunar gvfs wofi vim kitty nwg-look gnome-themes-extra materia-gtk-theme power-profiles-daemon "
   local arch_only_packages="wayland"
 
   if [[ "$os" == "arch" ]]; then
@@ -22,13 +22,20 @@ install_packages() {
   
   log "OK" "Pakete erfolgreich installiert: $packages"
 }
-
 install_aur_packages() {
-  [[ ${#SELECTED_AUR[@]} -eq 0 ]] && return
+  # Waybar IMMER installieren (Hardcoded)
+  local required_aur_packages=("waybar")
+  local combined_packages=("${required_aur_packages[@]}" "${SELECTED_AUR[@]}")
+
+  [[ ${#combined_packages[@]} -eq 0 ]] && return
   
-  log "INFO" "Installiere AUR-Pakete: ${SELECTED_AUR[*]}"
+  log "INFO" "Installiere AUR-Pakete: ${combined_packages[*]}"
   
-  for pkg in "${SELECTED_AUR[@]}"; do
+  for pkg in "${combined_packages[@]}"; do
+    # Doppelte entfernen (falls Waybar manuell ausgewählt wurde)
+    [[ " ${installed_pkgs[*]} " == *" $pkg "* ]] && continue
+    installed_pkgs+=("$pkg")
+
     if ! sudo -u "$username" yay -S --needed --noconfirm "$pkg"; then
       log_error "Fehler bei der Installation von $pkg"
       continue
@@ -36,7 +43,6 @@ install_aur_packages() {
     log "OK" "$pkg erfolgreich installiert"
   done
 }
-
 install_yay() {
   if command -v yay &> /dev/null; then
     log "OK" "Yay ist bereits installiert"
