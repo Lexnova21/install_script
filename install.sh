@@ -18,6 +18,7 @@ source "$SCRIPT_DIR/modules/packages.sh"
 source "$SCRIPT_DIR/modules/fonts.sh"
 source "$SCRIPT_DIR/modules/configs.sh"
 source "$SCRIPT_DIR/modules/autologin.sh"
+source "$SCRIPT_DIR/modules/themes.sh"
 
 # --- Initialisierung ---
 setup_logging
@@ -36,6 +37,7 @@ install_aur_packages
 configure_network
 install_nerd_fonts
 copy_configs
+copy_themes
 setup_autologin
 
 # --- Abschlussbericht ---

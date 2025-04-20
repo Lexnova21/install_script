@@ -2,7 +2,7 @@
     "layer": "top", "position": "bottom",
     "modules-left": ["clock", "custom/weather"],
     "modules-center": ["hyprland/workspaces"],
-    "modules-right": ["network"],
+    "modules-right": ["network", "tray"],
     "reload_style_on_change":true,
   
 
@@ -25,15 +25,20 @@
          }
       },
   
+
 "custom/weather": {
-    "exec": "wttrbar --location Linz,AT --lang de --nerd",
-    "format": "- {}°C",
-    "tooltip": true,
-    "interval": 3600,
-    "return-type": "json"
+    "exec": "~/.config/hypr/scripts/weather.sh", // Pfad zum Skript
+    "format": "- {}", // Das Skript liefert den vollständigen Text inklusive Icon und °C
+    "tooltip": true, // Der Tooltip wird vom Skript geliefert
+    "interval": 900, // Z.B. alle 15 Minuten (900 Sekunden)
+    "return-type": "json" // Das Skript gibt JSON aus
 },
 
 
+"tray": {
+    "icon-size": 21,
+    "spacing": 10
+},
 
 
     "clock": {

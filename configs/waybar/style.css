@@ -20,26 +20,26 @@
 	/* background: #ABE9B3; */
 	/* background: #1A1826; */
 }
+#tray {
+	transition: none;
+	margin-right: 50px;
+}
 
-
-#custom-weather {
+/* #custom-weather {
 	margin-top: 3px;
-	/* margin-left: 20px; */
-	/* padding-left: 10px; */
+	margin-left: 20px;
+	padding-left: 10px;
 	padding-right: 10px;
 	margin-bottom: 3px;
 	border-radius: 10px;
 	transition: none;
-  }
-  
-  /* #custom-weather:hover {
-	background-color: rgba(50, 65, 80, 0.9);
   } */
   
+
   #network {
 	margin-top: 3px;
 	margin-left: 8px;
-	margin-right: 50px;
+	margin-right: 20px;
 	padding-left: 10px;
 	padding-right: 10px;
 	margin-bottom: 3px;
