@@ -18,7 +18,7 @@ source "$SCRIPT_DIR/modules/packages.sh"
 source "$SCRIPT_DIR/modules/fonts.sh"
 source "$SCRIPT_DIR/modules/configs.sh"
 source "$SCRIPT_DIR/modules/autologin.sh"
-source "$SCRIPT_DIR/modules/themes.sh"
+# source "$SCRIPT_DIR/modules/themes.sh"
 
 # --- Initialisierung ---
 setup_logging
@@ -37,7 +37,7 @@ install_aur_packages
 configure_network
 install_nerd_fonts
 copy_configs
-copy_themes
+# copy_themes
 setup_autologin
 
 # --- Abschlussbericht ---
@@ -49,8 +49,8 @@ echo "-------------------------------------------------"
 if [ ${#ERROR_LOG[@]} -eq 0 ]; then
   echo "✅ Alle Komponenten erfolgreich installiert!"
   echo ""
-  read -p "Neustart jetzt durchführen? (j/n): " reboot_choice
-  if [[ "$reboot_choice" =~ ^[jJ] ]]; then
+  read -p "Neustart jetzt durchführen? (y/n): " reboot_choice
+  if [[ "$reboot_choice" =~ ^[yY] ]]; then
     reboot
   fi
 else

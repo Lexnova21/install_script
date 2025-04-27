@@ -18,10 +18,10 @@ ask_questions() {
     done
 
     # Netzwerk
-    read -p "2) Soll eine statische IP konfiguriert werden? (j/n): " NETWORK_CHOICE
-    if [[ "$NETWORK_CHOICE" =~ ^[jJ] ]]; then
-        read -p "   IP-Adresse/CIDR (z.B. 192.168.1.10/24): " IP_ADDRESS
-        read -p "   Gateway (z.B. 192.168.1.1): " GATEWAY
+    read -p "2) Soll eine statische IP konfiguriert werden? (y/n): " NETWORK_CHOICE
+    if [[ "$NETWORK_CHOICE" =~ ^[yY] ]]; then
+        read -p "   IP-Adresse/CIDR (z.B. 192.168.0.100/24): " IP_ADDRESS
+        read -p "   Gateway (z.B. 192.168.0.1): " GATEWAY
         read -p "   DNS-Server (z.B. 8.8.8.8): " DNS_SERVER
     fi
 
@@ -35,21 +35,21 @@ ask_questions() {
     )
     SELECTED_AUR=()
     for pkg in "${AUR_PACKAGES[@]}"; do
-        read -p "   $pkg installieren? (j/n): " choice
-        [[ "$choice" =~ ^[jJ] ]] && SELECTED_AUR+=("$pkg")
+        read -p "   $pkg installieren? (y/n): " choice
+        [[ "$choice" =~ ^[yY] ]] && SELECTED_AUR+=("$pkg")
     done
 
     # Autologin
-    read -p "4) Autologin für aktuellen Benutzer aktivieren? (j/n): " AUTOLOGIN_CHOICE
+    read -p "4) Autologin für aktuellen Benutzer aktivieren? (y/n): " AUTOLOGIN_CHOICE
 
     # Bestätigung
     echo ""
     echo "Zusammenfassung der Konfiguration:"
     echo "Grafiktreiber: Option $GPU_CHOICE"
-    [[ "$NETWORK_CHOICE" == "j" ]] && echo "Netzwerk: $IP_ADDRESS | $GATEWAY | $DNS_SERVER"
+    [[ "$NETWORK_CHOICE" == "y" ]] && echo "Netzwerk: $IP_ADDRESS | $GATEWAY | $DNS_SERVER"
     echo "AUR-Pakete: ${SELECTED_AUR[*]}"
     echo "Autologin: $AUTOLOGIN_CHOICE"
     
     read -p "Installation starten? (j/n): " START_INSTALL
-    [[ "$START_INSTALL" =~ ^[jJ] ]] || exit 0
+    [[ "$START_INSTALL" =~ ^[yY] ]] || exit 0
 }
