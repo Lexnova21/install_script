@@ -1,7 +1,7 @@
 #!/bin/bash
 
 install_base_packages() {
-  local common_packages="hyprland udisks2 sudo python-pip swaync waybar hypridle wlroots networkmanager xdg-desktop-portal-hyprland hyprland-qt-support hyprpolkitagent thunar gvfs wofi vim kitty nwg-look gnome-themes-extra materia-gtk-theme power-profiles-daemon "
+  local common_packages="hyprland udisks2 sudo thunderbird python-pip swaync waybar hypridle wlroots networkmanager xdg-desktop-portal-hyprland hyprland-qt-support hyprpolkitagent thunar gvfs wofi vim kitty nwg-look gnome-themes-extra materia-gtk-theme power-profiles-daemon "
   local arch_only_packages="wayland"
 
   if [[ "$os" == "arch" ]]; then
